@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MyCompanyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="InOrder">
+          <Key>
+            <PropertyRef Name="InOrderID" />
+          </Key>
+          <Property Name="InOrderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InOrderNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="InOrderDate" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="varchar(max)" />
+          <Property Name="XMLConfig" Type="text" />
+          <Property Name="InsertName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InOrderPos">
+          <Key>
+            <PropertyRef Name="InOrderPosID" />
+          </Key>
+          <Property Name="InOrderPosID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InOrderID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="MaterialID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TargetQuantity" Type="float" Nullable="false" />
+          <Property Name="XMLConfig" Type="text" />
+          <Property Name="InsertName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MaterialNo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MaterialName1" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="XMLConfig" Type="text" />
+          <Property Name="InsertName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="DeleteDate" Type="datetime" />
+          <Property Name="DeleteName" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <Association Name="FK_InOrderPos_InOrderID">
+          <End Role="InOrder" Type="Self.InOrder" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InOrderPos" Type="Self.InOrderPos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InOrder">
+              <PropertyRef Name="InOrderID" />
+            </Principal>
+            <Dependent Role="InOrderPos">
+              <PropertyRef Name="InOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InOrderPos_MaterialID">
+          <End Role="Material" Type="Self.Material" Multiplicity="1" />
+          <End Role="InOrderPos" Type="Self.InOrderPos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="InOrderPos">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyCompanyModelStoreContainer">
+          <EntitySet Name="InOrder" EntityType="Self.InOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InOrderPos" EntityType="Self.InOrderPos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_InOrderPos_InOrderID" Association="Self.FK_InOrderPos_InOrderID">
+            <End Role="InOrder" EntitySet="InOrder" />
+            <End Role="InOrderPos" EntitySet="InOrderPos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InOrderPos_MaterialID" Association="Self.FK_InOrderPos_MaterialID">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="InOrderPos" EntitySet="InOrderPos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyCompanyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyCompanyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="InOrder" EntityType="MyCompanyModel.InOrder" />
+          <EntitySet Name="InOrderPos" EntityType="MyCompanyModel.InOrderPos" />
+          <EntitySet Name="Material" EntityType="MyCompanyModel.Material" />
+          <AssociationSet Name="FK_InOrderPos_InOrderID" Association="MyCompanyModel.FK_InOrderPos_InOrderID">
+            <End Role="InOrder" EntitySet="InOrder" />
+            <End Role="InOrderPos" EntitySet="InOrderPos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InOrderPos_MaterialID" Association="MyCompanyModel.FK_InOrderPos_MaterialID">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="InOrderPos" EntitySet="InOrderPos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="InOrder">
+          <Key>
+            <PropertyRef Name="InOrderID" />
+          </Key>
+          <Property Name="InOrderID" Type="Guid" Nullable="false" />
+          <Property Name="InOrderNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InOrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="XMLConfig" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InsertName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="InOrderPos_InOrder" Relationship="MyCompanyModel.FK_InOrderPos_InOrderID" FromRole="InOrder" ToRole="InOrderPos" />
+        </EntityType>
+        <EntityType Name="InOrderPos">
+          <Key>
+            <PropertyRef Name="InOrderPosID" />
+          </Key>
+          <Property Name="InOrderPosID" Type="Guid" Nullable="false" />
+          <Property Name="InOrderID" Type="Guid" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="MaterialID" Type="Guid" Nullable="false" />
+          <Property Name="TargetQuantity" Type="Double" Nullable="false" />
+          <Property Name="XMLConfig" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InsertName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="InOrder" Relationship="MyCompanyModel.FK_InOrderPos_InOrderID" FromRole="InOrderPos" ToRole="InOrder" />
+          <NavigationProperty Name="Material" Relationship="MyCompanyModel.FK_InOrderPos_MaterialID" FromRole="InOrderPos" ToRole="Material" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Guid" Nullable="false" />
+          <Property Name="MaterialNo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MaterialName1" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="XMLConfig" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="InsertName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="InOrderPos_Material" Relationship="MyCompanyModel.FK_InOrderPos_MaterialID" FromRole="Material" ToRole="InOrderPos" />
+          <Property Name="DeleteDate" Type="DateTime" Precision="3" />
+          <Property Name="DeleteName" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_InOrderPos_InOrderID">
+          <End Type="MyCompanyModel.InOrder" Role="InOrder" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MyCompanyModel.InOrderPos" Role="InOrderPos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InOrder">
+              <PropertyRef Name="InOrderID" />
+            </Principal>
+            <Dependent Role="InOrderPos">
+              <PropertyRef Name="InOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InOrderPos_MaterialID">
+          <End Type="MyCompanyModel.Material" Role="Material" Multiplicity="1" />
+          <End Type="MyCompanyModel.InOrderPos" Role="InOrderPos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="InOrderPos">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyCompanyModelStoreContainer" CdmEntityContainer="MyCompanyEntities">
+          <EntitySetMapping Name="InOrder">
+            <EntityTypeMapping TypeName="MyCompanyModel.InOrder">
+              <MappingFragment StoreEntitySet="InOrder">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateName" ColumnName="UpdateName" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertName" ColumnName="InsertName" />
+                <ScalarProperty Name="XMLConfig" ColumnName="XMLConfig" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="InOrderDate" ColumnName="InOrderDate" />
+                <ScalarProperty Name="InOrderNo" ColumnName="InOrderNo" />
+                <ScalarProperty Name="InOrderID" ColumnName="InOrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InOrderPos">
+            <EntityTypeMapping TypeName="MyCompanyModel.InOrderPos">
+              <MappingFragment StoreEntitySet="InOrderPos">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateName" ColumnName="UpdateName" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertName" ColumnName="InsertName" />
+                <ScalarProperty Name="XMLConfig" ColumnName="XMLConfig" />
+                <ScalarProperty Name="TargetQuantity" ColumnName="TargetQuantity" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="InOrderID" ColumnName="InOrderID" />
+                <ScalarProperty Name="InOrderPosID" ColumnName="InOrderPosID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Material">
+            <EntityTypeMapping TypeName="MyCompanyModel.Material">
+              <MappingFragment StoreEntitySet="Material">
+                <ScalarProperty Name="DeleteName" ColumnName="DeleteName" />
+                <ScalarProperty Name="DeleteDate" ColumnName="DeleteDate" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateName" ColumnName="UpdateName" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertName" ColumnName="InsertName" />
+                <ScalarProperty Name="XMLConfig" ColumnName="XMLConfig" />
+                <ScalarProperty Name="MaterialName1" ColumnName="MaterialName1" />
+                <ScalarProperty Name="MaterialNo" ColumnName="MaterialNo" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
